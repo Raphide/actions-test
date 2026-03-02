@@ -33,7 +33,7 @@ jobs:
 
       - name: Generate index
         run: |
-          index_file="./index.md"
+          index_file="md-tests/index.md"
           echo "<h1>Index</h1>" > "$index_file"
           echo "" >> "$index_file"
 
