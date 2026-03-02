@@ -30,6 +30,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Resolve includes
+        run: |
+          for file in md-tests/folder1/*.md md-tests/folder2/*.md; do
+            while grep -q '{{include:' "$file"; do
+              include_path=$(grep -o '{{include: [^}]*}}' "$file" | head -1 | sed 's/{{include: //;s/}}//')
+              full_path="md-tests/$include_path"
+              included=$(cat "$full_path")
+              awk -v tag="{{include: $include_path}}" -v content="$included" \
+                '{gsub(tag, content)} 1' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+            done
+          done
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
