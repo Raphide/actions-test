@@ -37,12 +37,12 @@ jobs:
           echo "<h1>Index</h1>" > "$index_file"
           echo "" >> "$index_file"
 
-          # Loop over immediate subdirectories of md-tests/, excluding 'modular'
+          # Loop over immediate subdirectories of md-tests/, excluding 'modulars'
           for dir in md-tests/*/; do
             dir_name=$(basename "$dir")
 
-            # Skip the modular directory
-            if [ "$dir_name" = "modular" ]; then
+            # Skip the modulars directory
+            if [ "$dir_name" = "modulars" ]; then
               continue
             fi
 
