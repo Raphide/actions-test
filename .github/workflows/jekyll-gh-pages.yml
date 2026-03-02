@@ -33,16 +33,16 @@ jobs:
 
       - name: Generate index
         run: |
-          index_file="md-tests/index.md"
+          index_file="./index.md"
           echo "<h1>Index</h1>" > "$index_file"
           echo "" >> "$index_file"
 
-          # Loop over immediate subdirectories of md-tests/, excluding 'modulars'
+          # Loop over immediate subdirectories of md-tests/, excluding 'modular'
           for dir in md-tests/*/; do
             dir_name=$(basename "$dir")
 
-            # Skip the modulars directory
-            if [ "$dir_name" = "modulars" ]; then
+            # Skip the modular directory
+            if [ "$dir_name" = "modular" ]; then
               continue
             fi
 
