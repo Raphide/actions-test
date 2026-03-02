@@ -31,6 +31,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Generate index
+        run: |
+          index_file="md-tests/index.md"
+          echo "<h1>Index</h1>" > "$index_file"
+          echo "" >> "$index_file"
+
+          # Loop over immediate subdirectories of md-tests/, excluding 'modular'
+          for dir in md-tests/*/; do
+            dir_name=$(basename "$dir")
+
+            # Skip the modular directory
+            if [ "$dir_name" = "modular" ]; then
+              continue
+            fi
+
+            # Find .md files only at the immediate level of this directory (no subdirectories)
+            while IFS= read -r file; do
+              filename=$(basename "$file" .md)
+              rel_path="./${dir_name}/${filename}.md"
+              echo "- [${filename}](${rel_path})" >> "$index_file"
+            done < <(find "$dir" -maxdepth 1 -name "*.md" | sort)
+          done
+
       - name: Resolve includes
         run: |
           for file in md-tests/folder1/*.md md-tests/folder2/*.md; do
